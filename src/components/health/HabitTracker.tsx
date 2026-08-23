@@ -83,7 +83,10 @@ export function HabitTracker({
           target_per_week: preset.target,
         }
       : { title: title.trim(), emoji, category, target_per_week: target };
-    if (!payload.title) return toast.error("Give the habit a name.");
+    if (!payload.title) {
+      toast.error("Give the habit a name.");
+      return;
+    }
     setBusy(true);
     try {
       await createHabit(userId, payload);
