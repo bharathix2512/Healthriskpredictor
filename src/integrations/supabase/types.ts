@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_insights: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          kind: string
+          payload: Json | null
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          kind?: string
+          payload?: Json | null
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          payload?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       assessments: {
         Row: {
           bmi: number
@@ -52,6 +79,164 @@ export type Database = {
           recommendations?: Json
           specialists?: Json
           total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      daily_logs: {
+        Row: {
+          created_at: string
+          diastolic: number | null
+          glucose: number | null
+          id: string
+          log_date: string
+          mood: number | null
+          note: string | null
+          resting_hr: number | null
+          sleep_hours: number | null
+          sleep_quality: number | null
+          steps: number | null
+          stress: number | null
+          systolic: number | null
+          user_id: string
+          water_glasses: number | null
+          weight_kg: number | null
+        }
+        Insert: {
+          created_at?: string
+          diastolic?: number | null
+          glucose?: number | null
+          id?: string
+          log_date?: string
+          mood?: number | null
+          note?: string | null
+          resting_hr?: number | null
+          sleep_hours?: number | null
+          sleep_quality?: number | null
+          steps?: number | null
+          stress?: number | null
+          systolic?: number | null
+          user_id: string
+          water_glasses?: number | null
+          weight_kg?: number | null
+        }
+        Update: {
+          created_at?: string
+          diastolic?: number | null
+          glucose?: number | null
+          id?: string
+          log_date?: string
+          mood?: number | null
+          note?: string | null
+          resting_hr?: number | null
+          sleep_hours?: number | null
+          sleep_quality?: number | null
+          steps?: number | null
+          stress?: number | null
+          systolic?: number | null
+          user_id?: string
+          water_glasses?: number | null
+          weight_kg?: number | null
+        }
+        Relationships: []
+      }
+      goals: {
+        Row: {
+          achieved: boolean
+          created_at: string
+          due_date: string | null
+          id: string
+          metric: string
+          start_value: number | null
+          target_value: number
+          title: string
+          user_id: string
+        }
+        Insert: {
+          achieved?: boolean
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          metric: string
+          start_value?: number | null
+          target_value: number
+          title: string
+          user_id: string
+        }
+        Update: {
+          achieved?: boolean
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          metric?: string
+          start_value?: number | null
+          target_value?: number
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      habit_logs: {
+        Row: {
+          created_at: string
+          done_date: string
+          habit_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          done_date?: string
+          habit_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          done_date?: string
+          habit_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "habit_logs_habit_id_fkey"
+            columns: ["habit_id"]
+            isOneToOne: false
+            referencedRelation: "habits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      habits: {
+        Row: {
+          archived: boolean
+          category: string
+          created_at: string
+          emoji: string
+          id: string
+          target_per_week: number
+          title: string
+          user_id: string
+        }
+        Insert: {
+          archived?: boolean
+          category?: string
+          created_at?: string
+          emoji?: string
+          id?: string
+          target_per_week?: number
+          title: string
+          user_id: string
+        }
+        Update: {
+          archived?: boolean
+          category?: string
+          created_at?: string
+          emoji?: string
+          id?: string
+          target_per_week?: number
+          title?: string
           user_id?: string
         }
         Relationships: []
