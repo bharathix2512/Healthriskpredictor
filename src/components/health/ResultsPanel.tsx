@@ -120,7 +120,7 @@ export function ResultsPanel({ result, onEdit }: { result: RiskResult; onEdit: (
                     }}
                     formatter={(v, _n, p) => [`${v} / ${p.payload.max} pts`, "Score"]}
                   />
-                  <Bar dataKey="score" radius={8}>
+                  <Bar dataKey="score" radius={8} background={{ fill: "var(--muted)", radius: 8 } as never} minPointSize={3}>
                     {result.components.map((c) => (
                       <Cell
                         key={c.key}
