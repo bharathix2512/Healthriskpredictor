@@ -27,9 +27,24 @@ const SEVERITY_LABEL = {
   urgent: "Act now",
 } as const;
 
-export function ResultsPanel({ result, onEdit }: { result: RiskResult; onEdit: () => void }) {
+export function ResultsPanel({
+  result,
+  onEdit,
+  onSave,
+  saving,
+  saved,
+  signedIn,
+}: {
+  result: RiskResult;
+  onEdit: () => void;
+  onSave?: () => void;
+  saving?: boolean;
+  saved?: boolean;
+  signedIn?: boolean;
+}) {
   const color = LEVEL_TOKEN[result.level];
   const bmiPct = Math.min(100, Math.max(0, ((result.bmi - 14) / 26) * 100));
+
 
   return (
     <div className="space-y-5">
