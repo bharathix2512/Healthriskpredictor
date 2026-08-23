@@ -249,7 +249,7 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
               max={12}
               step={1}
               value={[value.sleepHours]}
-              onValueChange={([v]) => set("sleepHours", v)}
+              onValueChange={(v) => set("sleepHours", v[0] ?? 7)}
             />
           </Field>
           <Field label={`Stress level — ${value.stress} / 10`}>
@@ -258,7 +258,7 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
               max={10}
               step={1}
               value={[value.stress]}
-              onValueChange={([v]) => set("stress", v)}
+              onValueChange={(v) => set("stress", v[0] ?? 4)}
             />
           </Field>
         </div>
