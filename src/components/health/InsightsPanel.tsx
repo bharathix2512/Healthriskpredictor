@@ -26,7 +26,7 @@ function buildSnapshot(history: SavedAssessment[], logs: DailyLog[]) {
     );
     lines.push(
       `Score components: ${latest.components
-        .map((c) => `${c.label} ${c.value}/${c.max}`)
+        .map((c) => `${c.label} ${c.score}/${c.max}`)
         .join(", ")}.`,
     );
   }
