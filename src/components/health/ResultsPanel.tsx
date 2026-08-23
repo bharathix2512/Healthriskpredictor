@@ -187,6 +187,19 @@ export function ResultsPanel({
         <Button variant="outline" size="lg" className="rounded-full px-7" onClick={onEdit}>
           Adjust my answers
         </Button>
+        {onSave && (
+          <Button size="lg" className="rounded-full px-7" onClick={onSave} disabled={saving || saved}>
+            {saved ? "Saved to my record" : saving ? "Saving…" : signedIn ? "Save to my record" : "Sign in to save"}
+          </Button>
+        )}
+        <Button
+          variant="ghost"
+          size="lg"
+          className="rounded-full px-7"
+          onClick={() => window.print()}
+        >
+          Print / save as PDF
+        </Button>
         <p className="text-sm text-muted-foreground">
           Educational insight only — it is not a diagnosis.
         </p>
@@ -194,3 +207,4 @@ export function ResultsPanel({
     </div>
   );
 }
+
