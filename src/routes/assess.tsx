@@ -1,7 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 import { AssessmentForm } from "@/components/health/AssessmentForm";
 import { ResultsPanel } from "@/components/health/ResultsPanel";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { useAuth } from "@/hooks/useAuth";
+import { saveAssessment } from "@/lib/assessments";
 import { assess, defaultInput, type HealthInput } from "@/lib/risk";
 
 export const Route = createFileRoute("/assess")({
@@ -29,20 +33,33 @@ export const Route = createFileRoute("/assess")({
 function AssessPage() {
   const [input, setInput] = useState<HealthInput>(defaultInput);
   const [submitted, setSubmitted] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
   const result = useMemo(() => assess(input), [input]);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSave = async () => {
+    if (!user) {
+      navigate({ to: "/auth" });
+      return;
+    }
+    setSaving(true);
+    try {
+      await saveAssessment(user.id, input, result);
+      setSaved(true);
+      toast.success("Saved to your health record.");
+    } catch {
+      toast.error("Could not save this assessment.");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
-    <main className="min-h-screen bg-gradient-dawn pb-24">
-      <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-8">
-        <Link to="/" className="font-display text-lg">
-          Ember<span className="text-primary">.</span>
-        </Link>
-        <span className="text-sm text-muted-foreground">
-          {submitted ? "Your profile" : "Step-by-step"}
-        </span>
-      </header>
-
-      <div className="mx-auto max-w-5xl px-6">
+    <div className="min-h-screen bg-gradient-dawn pb-24">
+      <SiteHeader />
+      <main className="mx-auto max-w-5xl px-6 pt-12">
         <h1 className="max-w-2xl text-4xl sm:text-5xl">
           {submitted ? "Here's where you stand." : "Tell us your numbers."}
         </h1>
@@ -54,19 +71,30 @@ function AssessPage() {
 
         <div className="mt-10">
           {submitted ? (
-            <ResultsPanel result={result} onEdit={() => setSubmitted(false)} />
+            <ResultsPanel
+              result={result}
+              onEdit={() => {
+                setSubmitted(false);
+                setSaved(false);
+              }}
+              onSave={handleSave}
+              saving={saving}
+              saved={saved}
+              signedIn={!!user}
+            />
           ) : (
             <AssessmentForm
               value={input}
               onChange={setInput}
               onSubmit={() => {
                 setSubmitted(true);
+                setSaved(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             />
           )}
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
