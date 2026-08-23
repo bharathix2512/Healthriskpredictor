@@ -27,9 +27,24 @@ const SEVERITY_LABEL = {
   urgent: "Act now",
 } as const;
 
-export function ResultsPanel({ result, onEdit }: { result: RiskResult; onEdit: () => void }) {
+export function ResultsPanel({
+  result,
+  onEdit,
+  onSave,
+  saving,
+  saved,
+  signedIn,
+}: {
+  result: RiskResult;
+  onEdit: () => void;
+  onSave?: () => void;
+  saving?: boolean;
+  saved?: boolean;
+  signedIn?: boolean;
+}) {
   const color = LEVEL_TOKEN[result.level];
   const bmiPct = Math.min(100, Math.max(0, ((result.bmi - 14) / 26) * 100));
+
 
   return (
     <div className="space-y-5">
@@ -172,6 +187,19 @@ export function ResultsPanel({ result, onEdit }: { result: RiskResult; onEdit: (
         <Button variant="outline" size="lg" className="rounded-full px-7" onClick={onEdit}>
           Adjust my answers
         </Button>
+        {onSave && (
+          <Button size="lg" className="rounded-full px-7" onClick={onSave} disabled={saving || saved}>
+            {saved ? "Saved to my record" : saving ? "Saving…" : signedIn ? "Save to my record" : "Sign in to save"}
+          </Button>
+        )}
+        <Button
+          variant="ghost"
+          size="lg"
+          className="rounded-full px-7"
+          onClick={() => window.print()}
+        >
+          Print / save as PDF
+        </Button>
         <p className="text-sm text-muted-foreground">
           Educational insight only — it is not a diagnosis.
         </p>
@@ -179,3 +207,4 @@ export function ResultsPanel({ result, onEdit }: { result: RiskResult; onEdit: (
     </div>
   );
 }
+
