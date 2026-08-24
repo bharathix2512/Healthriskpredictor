@@ -7,6 +7,7 @@ import { generateInsight } from "@/lib/insights.functions";
 import { correlations, sleepDebt, energyScore, forecast, trajectory } from "@/lib/analytics";
 import { saveInsight, type AiInsight, type DailyLog } from "@/lib/tracking";
 import type { SavedAssessment } from "@/lib/assessments";
+import { BulletAnswer } from "@/components/health/BulletAnswer";
 
 const KINDS = [
   { kind: "summary" as const, label: "Narrative summary" },
@@ -14,7 +15,7 @@ const KINDS = [
   { kind: "explain" as const, label: "Why this score?" },
 ];
 
-function buildSnapshot(history: SavedAssessment[], logs: DailyLog[]) {
+export function buildSnapshot(history: SavedAssessment[], logs: DailyLog[]) {
   const latest = history[0];
   const lines: string[] = [];
   if (latest) {
@@ -139,9 +140,7 @@ export function InsightsPanel({
                 {new Date(i.created_at).toLocaleString()}
               </time>
             </header>
-            <div className="mt-4 whitespace-pre-wrap leading-relaxed text-foreground/90">
-              {i.content}
-            </div>
+            <BulletAnswer text={i.content} className="mt-4" />
           </article>
         ))
       )}

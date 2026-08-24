@@ -47,7 +47,7 @@ export function CoachChat({ snapshot }: { snapshot: string }) {
     setBusy(true);
     try {
       const { content } = await send({
-        data: { snapshot, messages: next.filter((m) => m.role === "user" || m !== next[0]) },
+        data: { snapshot, messages: next.slice(1) },
       });
       setMessages((prev) => [...prev, { role: "assistant", content }]);
     } catch (err) {

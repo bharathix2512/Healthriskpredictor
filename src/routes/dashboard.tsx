@@ -30,7 +30,8 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { DailyLogDialog } from "@/components/health/DailyLogDialog";
 import { HabitTracker } from "@/components/health/HabitTracker";
 import { GoalsPanel } from "@/components/health/GoalsPanel";
-import { InsightsPanel } from "@/components/health/InsightsPanel";
+import { InsightsPanel, buildSnapshot } from "@/components/health/InsightsPanel";
+import { CoachChat } from "@/components/health/CoachChat";
 import { useAuth } from "@/hooks/useAuth";
 import { deleteAssessment, listAssessments, type SavedAssessment } from "@/lib/assessments";
 import {
@@ -795,6 +796,8 @@ function Dashboard() {
               />
             </TabsContent>
           </Tabs>
+
+          <CoachChat snapshot={buildSnapshot(history, logs)} />
         )}
       </main>
     </div>
