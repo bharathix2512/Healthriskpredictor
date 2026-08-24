@@ -796,9 +796,9 @@ function Dashboard() {
               />
             </TabsContent>
           </Tabs>
-
-          <CoachChat snapshot={buildSnapshot(history, logs)} />
         )}
+
+        <CoachChat snapshot={buildSnapshot(history, logs)} />
       </main>
     </div>
   );
