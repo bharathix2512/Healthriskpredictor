@@ -154,7 +154,7 @@ function Home() {
             </h2>
             <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
               {FEATURES.map((f) => (
-                <div key={f.title}>
+                <div key={f.title} className="border-t border-border pt-5">
                   <h3 className="text-xl">{f.title}</h3>
                   <p className="mt-2 text-muted-foreground">{f.body}</p>
                 </div>
