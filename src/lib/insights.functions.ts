@@ -13,15 +13,17 @@ Rules:
 - Never diagnose, never prescribe medication or doses.
 - Be specific to the numbers given; cite them.
 - Be encouraging but honest; flag anything that needs a clinician.
-- Plain markdown: short paragraphs and bullet lists. No headings above level 3.
-- Always close with one line reminding them this is educational, not a diagnosis.`;
+- ALWAYS answer as a bullet-point list. Never write paragraphs or prose blocks.
+- Every bullet starts with "- " on its own line, is one sentence, and may open with a short bold-free label followed by a colon.
+- Group with short plain-text section labels ending in a colon on their own line when useful.
+- Close with a final bullet reminding them this is educational, not a diagnosis.`;
 
 const PROMPTS = {
   summary:
-    "Write a 180-250 word narrative health summary. Cover what is going well, what is drifting, and the single most useful change. Explain WHY the risk score is where it is, naming the contributing markers.",
-  plan: "Write a practical 30-day wellness plan as three phases (days 1-10, 11-20, 21-30). Each phase: 3 concrete, measurable actions tuned to the data given. Keep it under 300 words.",
+    "Give a bullet-point health summary (8-12 bullets max) under these labels: Going well:, Drifting:, Why your score sits here:, Do this first:. Cite the actual numbers in the bullets. Bullets only, no paragraphs.",
+  plan: "Give a 30-day wellness plan as bullets only, under three labels: Days 1-10:, Days 11-20:, Days 21-30:. Three concrete measurable action bullets per phase, tuned to the data given.",
   explain:
-    "Explain in under 200 words which specific factors drive this person's risk score most, in descending order of impact, and how much headroom each one has.",
+    "List the factors driving this risk score, bullets only, in descending order of impact. One bullet per factor: the factor, its current value, the points it contributes, and the headroom available.",
 } as const;
 
 export const generateInsight = createServerFn({ method: "POST" })

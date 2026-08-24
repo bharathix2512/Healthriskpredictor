@@ -3,10 +3,6 @@ import { useEffect, useState } from "react";
 import { Loader2, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -17,7 +13,7 @@ export const Route = createFileRoute("/auth")({
       {
         name: "description",
         content:
-          "Sign in to Ember Health to save your health risk assessments, track your score over time and revisit your personalised recommendations.",
+          "Sign in with Google to save your health risk assessments, track your score over time and revisit your personalised recommendations.",
       },
       { property: "og:title", content: "Sign in — Ember Health" },
       {
@@ -45,9 +41,6 @@ function GoogleMark() {
 function AuthPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -66,38 +59,6 @@ function AuthPage() {
     }
     if (result.redirected) return;
     navigate({ to: "/dashboard" });
-  };
-
-  const signIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setBusy(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setBusy(false);
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Welcome back.");
-    navigate({ to: "/dashboard" });
-  };
-
-  const signUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setBusy(true);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: window.location.origin,
-        data: { full_name: name },
-      },
-    });
-    setBusy(false);
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Account created. Check your inbox if confirmation is required.");
   };
 
   return (
@@ -125,93 +86,18 @@ function AuthPage() {
         <div className="w-full max-w-sm">
           <h2 className="text-3xl">Your health record</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Sign in to save assessments and track progress over time.
+            Sign in with your Google account to save assessments and track progress over time.
           </p>
 
-          <Button
-            variant="outline"
-            className="mt-8 w-full rounded-full"
-            onClick={signInGoogle}
-            disabled={busy}
-          >
-            <GoogleMark /> Continue with Google
+          <Button className="mt-8 w-full rounded-full" onClick={signInGoogle} disabled={busy}>
+            {busy ? <Loader2 className="mr-1 size-4 animate-spin" /> : <GoogleMark />} Continue with
+            Google
           </Button>
 
-          <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            <span className="h-px flex-1 bg-border" /> or <span className="h-px flex-1 bg-border" />
-          </div>
-
-          <Tabs defaultValue="signin">
-            <TabsList className="w-full">
-              <TabsTrigger value="signin" className="flex-1">
-                Sign in
-              </TabsTrigger>
-              <TabsTrigger value="signup" className="flex-1">
-                Create account
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="signin">
-              <form className="mt-5 space-y-4" onSubmit={signIn}>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <Button type="submit" className="w-full rounded-full" disabled={busy}>
-                  {busy && <Loader2 className="mr-2 size-4 animate-spin" />} Sign in
-                </Button>
-              </form>
-            </TabsContent>
-
-            <TabsContent value="signup">
-              <form className="mt-5 space-y-4" onSubmit={signUp}>
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email-up">Email</Label>
-                  <Input
-                    id="email-up"
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password-up">Password</Label>
-                  <Input
-                    id="password-up"
-                    type="password"
-                    required
-                    minLength={6}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <Button type="submit" className="w-full rounded-full" disabled={busy}>
-                  {busy && <Loader2 className="mr-2 size-4 animate-spin" />} Create account
-                </Button>
-              </form>
-            </TabsContent>
-          </Tabs>
+          <p className="mt-6 text-xs text-muted-foreground">
+            No passwords to remember — Google sign-in is the only way in, so your health record stays
+            tied to one verified account.
+          </p>
 
           <p className="mt-8 text-xs text-muted-foreground">
             Ember provides educational insight, not a medical diagnosis.

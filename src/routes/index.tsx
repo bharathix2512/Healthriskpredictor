@@ -1,14 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Activity,
-  BarChart3,
-  FileDown,
-  HeartPulse,
-  LineChart,
-  ListChecks,
-  Lock,
-  Stethoscope,
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
@@ -36,31 +26,26 @@ export const Route = createFileRoute("/")({
 
 const MARKERS = [
   {
-    icon: HeartPulse,
     label: "Blood pressure",
     weight: "25 pts",
     body: "Graded against current clinical stages, from normal through stage 2 hypertension.",
   },
   {
-    icon: Activity,
     label: "Body composition",
     weight: "25 pts",
     body: "BMI bands weighted the way clinicians read them, with a visual position on the scale.",
   },
   {
-    icon: LineChart,
     label: "Blood sugar",
     weight: "20 pts",
     body: "Fasting glucose thresholds plus any existing diabetes diagnosis.",
   },
   {
-    icon: ListChecks,
     label: "Lifestyle",
     weight: "20 pts",
     body: "Smoking, alcohol, movement, sleep window and sustained stress load.",
   },
   {
-    icon: Stethoscope,
     label: "Medical & family history",
     weight: "10 pts",
     body: "Existing conditions and what runs in your immediate family.",
@@ -69,32 +54,26 @@ const MARKERS = [
 
 const FEATURES = [
   {
-    icon: BarChart3,
     title: "Traceable scoring",
     body: "A component bar chart shows exactly which markers built your score — and how much headroom each has.",
   },
   {
-    icon: LineChart,
     title: "Trend tracking",
     body: "Save each assessment and watch your score, blood pressure, glucose and BMI move over time.",
   },
   {
-    icon: Stethoscope,
     title: "Referral guidance",
     body: "When markers cluster, Ember names the specialist worth consulting instead of leaving you guessing.",
   },
   {
-    icon: FileDown,
     title: "Shareable summary",
     body: "Print or export a clean one-page summary to bring to your next appointment.",
   },
   {
-    icon: ListChecks,
     title: "Actionable plan",
     body: "Recommendations are prioritised — act now, watch, or keep going — across diet, movement and medical follow-up.",
   },
   {
-    icon: Lock,
     title: "Private by default",
     body: "Scoring runs in your browser. Records are saved only to your own account when you choose to save them.",
   },
@@ -153,10 +132,10 @@ function Home() {
             <h2 className="mt-5 text-3xl sm:text-4xl">Every point on your score is traceable.</h2>
           </div>
           <div className="mt-12 divide-y divide-border border-y border-border">
-            {MARKERS.map((m) => (
+            {MARKERS.map((m, i) => (
               <div key={m.label} className="grid gap-4 py-7 sm:grid-cols-[auto_1fr_auto] sm:gap-8">
-                <span className="inline-flex size-11 items-center justify-center rounded-full bg-gradient-warm text-primary-foreground">
-                  <m.icon className="size-5" />
+                <span className="self-start font-display text-sm text-primary/70">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
                   <h3 className="text-xl">{m.label}</h3>
@@ -175,9 +154,8 @@ function Home() {
             </h2>
             <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
               {FEATURES.map((f) => (
-                <div key={f.title}>
-                  <f.icon className="size-5 text-primary" />
-                  <h3 className="mt-4 text-xl">{f.title}</h3>
+                <div key={f.title} className="border-t border-border pt-5">
+                  <h3 className="text-xl">{f.title}</h3>
                   <p className="mt-2 text-muted-foreground">{f.body}</p>
                 </div>
               ))}
