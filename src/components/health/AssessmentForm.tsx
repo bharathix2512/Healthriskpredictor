@@ -165,7 +165,7 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
         </p>
       </Section>
 
-      <Section step="02" title="Vitals" hint="Use your most recent readings.">
+      <Section step="02" title="Vitals & blood sugar" hint="Use your most recent readings.">
         <div className="grid gap-6 sm:grid-cols-3">
           <Field label="Systolic BP" suffix="mmHg">
             <Input
