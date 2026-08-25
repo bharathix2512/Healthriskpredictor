@@ -85,44 +85,71 @@ function Home() {
       <SiteHeader />
 
       <main>
-        <section className="border-b border-border bg-gradient-dawn">
-          <div className="mx-auto max-w-6xl px-6 py-24 lg:py-32">
-            <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
-              Smart health risk prediction
+        <section className="grid border-b border-border lg:min-h-[calc(100vh-4rem)] lg:grid-cols-2">
+          <div className="flex flex-col justify-between gap-12 bg-gradient-warm px-8 py-14 lg:px-12">
+            <span className="font-display text-xl text-primary-foreground">
+              Ember<span className="opacity-70">.</span>
+            </span>
+            <div>
+              <h1 className="max-w-md text-4xl leading-tight text-primary-foreground sm:text-5xl">
+                A longitudinal view of your health, not a one-off number.
+              </h1>
+              <ul className="mt-8 space-y-3 text-primary-foreground/85">
+                <li>Save every assessment and watch the trend line move.</li>
+                <li>Compare vitals across visits, side by side.</li>
+                <li>Keep your recommendations and specialist referrals in one place.</li>
+              </ul>
+            </div>
+            <p className="flex items-center gap-2 text-sm text-primary-foreground/80">
+              <ShieldCheck className="size-4" /> Your records are private to your account.
             </p>
-            <h1 className="mt-7 max-w-3xl text-5xl leading-[1.04] sm:text-6xl lg:text-7xl">
-              Your body has been keeping notes.
-              <br />
-              <span className="text-primary">Let's read them.</span>
-            </h1>
-            <p className="mt-8 max-w-xl text-lg text-muted-foreground">
-              Ember reads your vitals, habits and history the way a careful clinician would — and
-              hands back a score you can actually understand, along with what to do about it.
-            </p>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="rounded-full px-8 text-base">
+          </div>
+
+          <div className="flex items-center justify-center bg-sand px-6 py-20 lg:px-12">
+            <div className="w-full max-w-md">
+              <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
+                Smart health risk prediction
+              </p>
+              <h2 className="mt-5 text-3xl leading-tight sm:text-4xl">
+                Your body has been keeping notes.{" "}
+                <span className="text-primary">Let's read them.</span>
+              </h2>
+              <p className="mt-5 text-muted-foreground">
+                Ember reads your vitals, habits and history the way a careful clinician would — and
+                hands back a score you can actually understand, along with what to do about it.
+              </p>
+
+              <Button asChild size="lg" className="mt-9 w-full rounded-full text-base">
                 <Link to="/assess">Begin my assessment</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="rounded-full px-8 text-base">
-                <Link to="/auth">Create a health record</Link>
-              </Button>
-            </div>
+              <Link
+                to="/auth"
+                className="mt-5 block text-center text-sm text-muted-foreground underline underline-offset-4"
+              >
+                Create a health record
+              </Link>
 
-            <dl className="mt-16 grid max-w-3xl grid-cols-2 gap-8 border-t border-border pt-10 sm:grid-cols-4">
-              {[
-                ["5", "clinical markers"],
-                ["0–100", "transparent score"],
-                ["4 min", "to complete"],
-                ["∞", "saved check-ins"],
-              ].map(([v, l]) => (
-                <div key={l}>
-                  <dt className="font-display text-3xl">{v}</dt>
-                  <dd className="mt-1 text-sm text-muted-foreground">{l}</dd>
-                </div>
-              ))}
-            </dl>
+              <dl className="mt-12 grid grid-cols-2 gap-6 border-t border-border pt-8">
+                {[
+                  ["5", "clinical markers"],
+                  ["0–100", "transparent score"],
+                  ["4 min", "to complete"],
+                  ["∞", "saved check-ins"],
+                ].map(([v, l]) => (
+                  <div key={l}>
+                    <dt className="font-display text-2xl">{v}</dt>
+                    <dd className="mt-1 text-sm text-muted-foreground">{l}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <p className="mt-10 text-xs text-muted-foreground">
+                Ember provides educational insight, not a medical diagnosis.
+              </p>
+            </div>
           </div>
         </section>
+
 
         <section className="mx-auto max-w-6xl px-6 py-24">
           <div className="max-w-2xl">
