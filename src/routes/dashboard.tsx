@@ -30,7 +30,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { DailyLogDialog } from "@/components/health/DailyLogDialog";
 import { HabitTracker } from "@/components/health/HabitTracker";
 import { GoalsPanel } from "@/components/health/GoalsPanel";
-import { InsightsPanel, buildSnapshot } from "@/components/health/InsightsPanel";
+import { buildSnapshot } from "@/components/health/InsightsPanel";
 import { CoachChat } from "@/components/health/CoachChat";
 import { useAuth } from "@/hooks/useAuth";
 import { deleteAssessment, listAssessments, type SavedAssessment } from "@/lib/assessments";
@@ -50,9 +50,7 @@ import {
   listGoals,
   listHabitLogs,
   listHabits,
-  listInsights,
   listLogs,
-  type AiInsight,
   type DailyLog,
   type Goal,
   type Habit,
@@ -140,7 +138,6 @@ function Dashboard() {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [habitLogs, setHabitLogs] = useState<HabitLog[]>([]);
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [insights, setInsights] = useState<AiInsight[]>([]);
 
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/auth" });
@@ -149,20 +146,18 @@ function Dashboard() {
   const refresh = useCallback(async () => {
     if (!user) return;
     try {
-      const [a, l, h, hl, g, i] = await Promise.all([
+      const [a, l, h, hl, g] = await Promise.all([
         listAssessments(),
         listLogs(),
         listHabits(),
         listHabitLogs(),
         listGoals(),
-        listInsights(),
       ]);
       setRows(a);
       setLogs(l);
       setHabits(h);
       setHabitLogs(hl);
       setGoals(g);
-      setInsights(i);
     } catch {
       toast.error("Could not load your health record.");
       setRows((prev) => prev ?? []);
@@ -294,7 +289,7 @@ function Dashboard() {
           <div>
             <h1 className="text-4xl">Your health record</h1>
             <p className="mt-3 max-w-lg text-muted-foreground">
-              Assessments, daily logs, habits, goals and AI coaching — private to your account.
+              Assessments, daily logs, habits and goals — private to your account. Ask Ember anytime.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -334,7 +329,6 @@ function Dashboard() {
                 ["habits", "Habits"],
                 ["logs", "Daily logs"],
                 ["goals", "Goals"],
-                ["insights", "AI coach"],
               ].map(([v, label]) => (
                 <TabsTrigger key={v} value={v!} className="rounded-full px-5">
                   {label}
@@ -785,16 +779,6 @@ function Dashboard() {
               />
             </TabsContent>
 
-            {/* ---------------- AI coach ---------------- */}
-            <TabsContent value="insights" className="mt-8">
-              <InsightsPanel
-                userId={user.id}
-                history={history}
-                logs={logs}
-                insights={insights}
-                onSaved={refresh}
-              />
-            </TabsContent>
           </Tabs>
         )}
 
