@@ -107,48 +107,27 @@ function Home() {
           </div>
 
           <div className="flex items-center justify-center bg-sand px-6 py-20 lg:px-12">
-            <div className="w-full max-w-md">
-              <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
-                Smart health risk prediction
-              </p>
-              <h2 className="mt-5 text-3xl leading-tight sm:text-4xl">
-                Your body has been keeping notes.{" "}
-                <span className="text-primary">Let's read them.</span>
-              </h2>
-              <p className="mt-5 text-muted-foreground">
-                Ember reads your vitals, habits and history the way a careful clinician would — and
-                hands back a score you can actually understand, along with what to do about it.
+            <div className="w-full max-w-sm">
+              <h2 className="text-3xl">Your health record</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Sign in with your Google account to save assessments and track progress over time.
               </p>
 
-              <Button asChild size="lg" className="mt-9 w-full rounded-full text-base">
-                <Link to="/assess">Begin my assessment</Link>
+              <Button asChild size="lg" className="mt-8 w-full rounded-full text-base">
+                <Link to="/auth">Continue with Google</Link>
               </Button>
-              <Link
-                to="/auth"
-                className="mt-5 block text-center text-sm text-muted-foreground underline underline-offset-4"
-              >
-                Create a health record
-              </Link>
 
-              <dl className="mt-12 grid grid-cols-2 gap-6 border-t border-border pt-8">
-                {[
-                  ["5", "clinical markers"],
-                  ["0–100", "transparent score"],
-                  ["4 min", "to complete"],
-                  ["∞", "saved check-ins"],
-                ].map(([v, l]) => (
-                  <div key={l}>
-                    <dt className="font-display text-2xl">{v}</dt>
-                    <dd className="mt-1 text-sm text-muted-foreground">{l}</dd>
-                  </div>
-                ))}
-              </dl>
+              <p className="mt-6 text-xs text-muted-foreground">
+                No passwords to remember — Google sign-in is the only way in, so your health record
+                stays tied to one verified account.
+              </p>
 
-              <p className="mt-10 text-xs text-muted-foreground">
+              <p className="mt-8 text-xs text-muted-foreground">
                 Ember provides educational insight, not a medical diagnosis.
               </p>
             </div>
           </div>
+
         </section>
 
 
