@@ -194,6 +194,17 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
               onChange={(e) => set("fastingGlucose", Number(e.target.value))}
             />
           </Field>
+          <Field label="HbA1c" suffix="%, 3-month average">
+            <Input
+              type="number"
+              step="0.1"
+              min={3}
+              max={16}
+              value={value.hba1c}
+              onChange={(e) => set("hba1c", Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">5.7–6.4% is prediabetic, 6.5%+ diabetic.</p>
+          </Field>
         </div>
         <div className="mt-6 flex items-center justify-between rounded-xl bg-muted px-4 py-3">
           <Label htmlFor="diabetes" className="text-sm">
@@ -207,7 +218,60 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
         </div>
       </Section>
 
-      <Section step="03" title="Daily life" hint="Habits move the needle most.">
+      <Section
+        step="03"
+        title="Lipids & inflammation"
+        hint="From your last blood panel — strong predictors of arterial plaque."
+      >
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Field label="LDL cholesterol" suffix="mg/dL">
+            <Input
+              type="number"
+              min={30}
+              max={300}
+              value={value.ldl}
+              onChange={(e) => set("ldl", Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">
+              Above 160 carries roughly 30% higher heart-attack risk.
+            </p>
+          </Field>
+          <Field label="HDL cholesterol" suffix="mg/dL">
+            <Input
+              type="number"
+              min={15}
+              max={120}
+              value={value.hdl}
+              onChange={(e) => set("hdl", Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">Higher is protective; 60+ is ideal.</p>
+          </Field>
+          <Field label="Triglycerides" suffix="mg/dL">
+            <Input
+              type="number"
+              min={30}
+              max={800}
+              value={value.triglycerides}
+              onChange={(e) => set("triglycerides", Number(e.target.value))}
+            />
+          </Field>
+          <Field label="hs-CRP" suffix="mg/L, inflammation">
+            <Input
+              type="number"
+              step="0.1"
+              min={0}
+              max={30}
+              value={value.crp}
+              onChange={(e) => set("crp", Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">
+              Above 3.0 signals elevated risk even with normal cholesterol.
+            </p>
+          </Field>
+        </div>
+      </Section>
+
+      <Section step="04" title="Daily life" hint="Habits move the needle most.">
         <div className="space-y-7">
           <Field label="Smoking">
             <Choice
@@ -243,6 +307,18 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
               ]}
             />
           </Field>
+          <Field label={`Exercise — ${value.exerciseMinutes} minutes per week`}>
+            <Slider
+              min={0}
+              max={600}
+              step={15}
+              value={[value.exerciseMinutes]}
+              onValueChange={(v) => set("exerciseMinutes", v[0] ?? 150)}
+            />
+            <p className="text-xs text-muted-foreground">
+              Under 60 min/week roughly doubles risk; 150–300 min/week is optimal.
+            </p>
+          </Field>
           <Field label={`Sleep — ${value.sleepHours} h per night`}>
             <Slider
               min={3}
@@ -264,7 +340,7 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
         </div>
       </Section>
 
-      <Section step="04" title="History" hint="Yours and your family's.">
+      <Section step="05" title="History" hint="Yours and your family's.">
         <div className="grid gap-8 sm:grid-cols-2">
           <div className="space-y-3">
             <p className="text-sm text-muted-foreground">Diagnosed conditions</p>
@@ -291,16 +367,63 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
             ))}
           </div>
         </div>
+
+        <div className="mt-8 space-y-3 border-t border-border pt-6">
+          <p className="text-sm text-muted-foreground">
+            Cardiac & stroke events — a previous heart attack raises the risk of a next one sharply.
+          </p>
+          <div className="flex items-center justify-between rounded-xl bg-muted px-4 py-3">
+            <Label htmlFor="priorMI" className="text-sm">
+              Previous heart attack (MI)
+            </Label>
+            <Switch
+              id="priorMI"
+              checked={value.priorMI}
+              onCheckedChange={(v) => set("priorMI", v)}
+            />
+          </div>
+          <div className="flex items-center justify-between rounded-xl bg-muted px-4 py-3">
+            <Label htmlFor="priorStroke" className="text-sm">
+              Previous stroke or TIA
+            </Label>
+            <Switch
+              id="priorStroke"
+              checked={value.priorStroke}
+              onCheckedChange={(v) => set("priorStroke", v)}
+            />
+          </div>
+          {(value.priorMI || value.priorStroke) && (
+            <div className="grid gap-6 pt-2 sm:grid-cols-2">
+              <Field label="Years since the most recent event">
+                <Input
+                  type="number"
+                  min={0}
+                  max={60}
+                  value={value.priorEventYears}
+                  onChange={(e) => set("priorEventYears", Number(e.target.value))}
+                />
+              </Field>
+              <div className="flex items-center justify-between self-end rounded-xl bg-muted px-4 py-3">
+                <Label htmlFor="meds" className="text-sm">
+                  On cardiac medication
+                </Label>
+                <Switch
+                  id="meds"
+                  checked={value.onCardiacMeds}
+                  onCheckedChange={(v) => set("onCardiacMeds", v)}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </Section>
 
       <div className="flex flex-wrap items-center gap-4 pt-2">
         <Button type="submit" size="lg" className="rounded-full px-8">
           See my risk profile
         </Button>
-        <p className="text-sm text-muted-foreground">
-          Nothing is stored — the calculation runs in your browser.
-        </p>
       </div>
     </form>
+
   );
 }
