@@ -194,6 +194,17 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
               onChange={(e) => set("fastingGlucose", Number(e.target.value))}
             />
           </Field>
+          <Field label="HbA1c" suffix="%, 3-month average">
+            <Input
+              type="number"
+              step="0.1"
+              min={3}
+              max={16}
+              value={value.hba1c}
+              onChange={(e) => set("hba1c", Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">5.7–6.4% is prediabetic, 6.5%+ diabetic.</p>
+          </Field>
         </div>
         <div className="mt-6 flex items-center justify-between rounded-xl bg-muted px-4 py-3">
           <Label htmlFor="diabetes" className="text-sm">
@@ -206,6 +217,60 @@ export function AssessmentForm({ value, onChange, onSubmit }: Props) {
           />
         </div>
       </Section>
+
+      <Section
+        step="03"
+        title="Lipids & inflammation"
+        hint="From your last blood panel — strong predictors of arterial plaque."
+      >
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Field label="LDL cholesterol" suffix="mg/dL">
+            <Input
+              type="number"
+              min={30}
+              max={300}
+              value={value.ldl}
+              onChange={(e) => set("ldl", Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">
+              Above 160 carries roughly 30% higher heart-attack risk.
+            </p>
+          </Field>
+          <Field label="HDL cholesterol" suffix="mg/dL">
+            <Input
+              type="number"
+              min={15}
+              max={120}
+              value={value.hdl}
+              onChange={(e) => set("hdl", Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">Higher is protective; 60+ is ideal.</p>
+          </Field>
+          <Field label="Triglycerides" suffix="mg/dL">
+            <Input
+              type="number"
+              min={30}
+              max={800}
+              value={value.triglycerides}
+              onChange={(e) => set("triglycerides", Number(e.target.value))}
+            />
+          </Field>
+          <Field label="hs-CRP" suffix="mg/L, inflammation">
+            <Input
+              type="number"
+              step="0.1"
+              min={0}
+              max={30}
+              value={value.crp}
+              onChange={(e) => set("crp", Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">
+              Above 3.0 signals elevated risk even with normal cholesterol.
+            </p>
+          </Field>
+        </div>
+      </Section>
+
 
       <Section step="03" title="Daily life" hint="Habits move the needle most.">
         <div className="space-y-7">
